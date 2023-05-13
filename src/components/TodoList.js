@@ -18,13 +18,27 @@ function TodoList() {
        console.log(...todos)
     }
 
+const updateTodo = (todoId, newValue) => {
+    if(!newValue.text || /^\s*$/.test(newValue.text)){
+        return;
+    }
+    setTodos(prev => prev.map(item => (item.id === todoId ? newValue : item)))
+}
 
 
 
- const completeTodo = id => {
+const removeTodo = SelectedId =>{
+    const removeArr = [...todos].filter(todo => todo.id !== SelectedId)
+
+    setTodos(removeArr)
+
+}
+
+
+ const completeTodo = SelectedId => {
     let updatedTodos = todos.map(todo=>{
-     
-        if(todo.id === id){
+       
+        if(todo.id === SelectedId){
             todo.isComplete = !todo.isComplete
         }
         
@@ -37,7 +51,8 @@ function TodoList() {
     <div>
         <h1> What is the plan for Today?</h1>
         <TodoForm onSubmit={addTodo}/>
-        <Todo todos={todos} completeTodo={completeTodo} />
+        <Todo todos={todos} completeTodo={completeTodo} removeTodo={removeTodo} updateTodo={updateTodo}
+        />
     </div>
   )
 }
